@@ -13,13 +13,7 @@ This project shows a MPA (multi-page application) that displays a home and a sho
 
 ## to-do
 
-- Two pages: **home** and **shop**
-  - **Home** _component_ (just contains website information)
-  - **Shop**
-    - Add a shopping cart button with products to buy count (clicking should lead you to "buy" products added to cart)
-    - A card _component_ for products
-      - It should have an input field to write quantity
-      - Image / title product
-      - Buttons to decrease / increase quantity to buy
-      - Button that sends quantity selected to shopping cart
-- Both pages show a navigation bar with links to both pages (Another _component_)
+- **Checkout**
+  - add a buy button that displays product count and inform that this project doesn't implements buying functionality
+- **Tests**
+  - Add tests

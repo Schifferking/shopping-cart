@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-function Navbar({ isShop = false }) {
+function Navbar({ name, productCount }) {
   const navigate = useNavigate();
   const checkout = () => {
     navigate("/checkout");
@@ -18,7 +18,11 @@ function Navbar({ isShop = false }) {
           <li>
             <Link to="/shop">Shop</Link>
           </li>
-          {isShop && <button onClick={checkout}>Checkout</button>}
+          {name === "shop" && (
+            <li>
+              <button onClick={checkout}>{`Checkout ${productCount}`}</button>
+            </li>
+          )}
         </ul>
       </nav>
     </div>
@@ -26,7 +30,8 @@ function Navbar({ isShop = false }) {
 }
 
 Navbar.propTypes = {
-  isShop: PropTypes.boolean,
+  name: PropTypes.string,
+  productCount: PropTypes.number,
 };
 
 export default Navbar;

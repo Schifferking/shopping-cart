@@ -1,7 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../../App";
-import Shop from "../Shop/Shop";
-import Checkout from "../Checkout/Checkout";
 import ErrorPage from "../ErrorPage/ErrorPage";
 
 function Router() {
@@ -12,12 +10,8 @@ function Router() {
       errorElement: <ErrorPage />,
     },
     {
-      path: "/shop",
-      element: <Shop />,
-    },
-    {
-      path: "/checkout",
-      element: <Checkout />,
+      path: "/:name",
+      element: <App />,
     },
   ]);
   return <RouterProvider router={router} />;
