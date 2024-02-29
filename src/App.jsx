@@ -1,33 +1,11 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import useProducts from "./hooks/useProducts";
 import Home from "./components/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
 import Shop from "./components/Shop/Shop";
 import Checkout from "./components/Checkout/Checkout";
 import "./App.css";
-
-const useProducts = () => {
-  const [products, setProducts] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => {
-        if (res.status >= 400) {
-          throw new Error("server error");
-        }
-        return res.json();
-      })
-      .then((fetchedProducts) => {
-        return setProducts(fetchedProducts);
-      })
-      .catch((error) => setError(error))
-      .finally(() => setLoading(false));
-  }, []);
-
-  return { products, error, loading };
-};
 
 const initialProductCounts = () => {
   let index = 1;
@@ -42,17 +20,24 @@ const initialProductCounts = () => {
 };
 
 function App() {
-  const { name } = useParams();
-  const { products, error, loading } = useProducts();
   const [productCount, setProductCount] = useState(0);
   const [productCounts, setProductCounts] = useState(initialProductCounts());
+  const { name } = useParams();
+  const { products, error, loading } = useProducts();
+  const navigate = useNavigate();
+  const checkout = () => {
+    navigate("/checkout");
+  };
 
   return (
     <div>
-      <Navbar name={name} productCount={productCount}></Navbar>
+      <Navbar
+        name={name}
+        productCount={productCount}
+        onClick={checkout}
+      ></Navbar>
       {name === "shop" ? (
         <Shop
-          productCount={productCount}
           setProductCount={setProductCount}
           products={products}
           error={error}
@@ -61,7 +46,7 @@ function App() {
           setProductCounts={setProductCounts}
         />
       ) : name === "checkout" ? (
-        <Checkout />
+        <Checkout productCount={productCount} />
       ) : (
         <Home />
       )}

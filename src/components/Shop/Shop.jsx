@@ -2,6 +2,24 @@ import PropTypes from "prop-types";
 import Card from "../Card/Card";
 
 function Shop(props) {
+  const calculateProductCount = () => {
+    const initialValue = 0;
+    const newProductCount = props.productCounts.reduce(
+      (accumulator, currentValue) => {
+        const currentProductcount = Number(currentValue.productCount);
+        return accumulator + currentProductcount;
+      },
+      initialValue
+    );
+
+    return newProductCount;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.setProductCount(calculateProductCount());
+  };
+
   if (props.error) return <p>A network error was encountered.</p>;
   if (props.loading) return <p>Loading...</p>;
 
@@ -21,6 +39,7 @@ function Shop(props) {
                   setProductCount={props.setProductCount}
                   productCounts={props.productCounts}
                   setProductCounts={props.setProductCounts}
+                  handleSubmit={handleSubmit}
                 ></Card>
               </li>
             );
@@ -34,7 +53,6 @@ Shop.propTypes = {
   error: PropTypes.object,
   loading: PropTypes.bool,
   products: PropTypes.array,
-  productCount: PropTypes.number,
   setProductCount: PropTypes.func,
   productCounts: PropTypes.array,
   setProductCounts: PropTypes.func,

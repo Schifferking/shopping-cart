@@ -15,27 +15,10 @@ function Card(props) {
     );
   };
 
-  const calculateProductCount = () => {
-    const initialValue = 0;
-    const newProductCount = props.productCounts.reduce(
-      (accumulator, currentValue) => {
-        const currentProductcount = Number(currentValue.productCount);
-        return accumulator + currentProductcount;
-      },
-      initialValue
-    );
-
-    return newProductCount;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    props.setProductCount(calculateProductCount());
-  };
-
   const handleChange = (e) => {
-    setValue(e.target.value);
-    updateProductCounts(e.target.value);
+    const newValue = e.target.value.startsWith("-") ? "0" : e.target.value;
+    setValue(newValue);
+    updateProductCounts(newValue);
   };
 
   const handleClick = (e) => {
@@ -57,11 +40,11 @@ function Card(props) {
   };
 
   return (
-    <div className="card">
+    <div className="card" data-testid="card-container">
       <img src={props.product.image} alt={props.product.description} />
       <p>{props.product.title}</p>
       <p>{`$ ${props.product.price}`}</p>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={props.handleSubmit}>
         <button type="button" onClick={handleClick}>
           -
         </button>
@@ -95,6 +78,7 @@ Card.propTypes = {
   setProductCount: PropTypes.func,
   productCounts: PropTypes.array,
   setProductCounts: PropTypes.func,
+  handleSubmit: PropTypes.func,
 };
 
 export default Card;
